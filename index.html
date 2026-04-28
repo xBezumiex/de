@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="index.css">
+    <title>Главная</title>
+</head>
+<body>
+    <div class="welcome">
+        <h1>Добро пожаловать</h1>
+        <p>Описание системы</p>
+
+        <div class="slider">
+            <img id="slide" src="gimp.jpeg" alt="slide">
+            <button class="prev" onclick="changeSlide(-1)">&#8249;</button>
+            <button class="next" onclick="changeSlide(1)">&#8250;</button>
+        </div>
+
+        <div class="welcome-btns">
+            <button onclick="location.href='login.html'">Войти</button>
+            <button onclick="location.href='register.html'">Регистрация</button>
+        </div>
+    </div>
+
+    <script>
+        let slides = ['gimp.jpeg', 'gimp1.webp'];
+        let current = 0;
+
+        function changeSlide(n) {
+            current = current + n;
+            if (current >= slides.length) current = 0;
+            if (current < 0) current = slides.length - 1;
+            document.getElementById('slide').src = slides[current];
+        }
+
+        setInterval(() => changeSlide(1), 3000);
+    </script>
+</body>
+</html>

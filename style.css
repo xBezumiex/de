@@ -1,0 +1,232 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px 16px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    color: #1a1a2e;
+}
+
+/* Широкий контейнер для внутренних страниц */
+.page {
+    background: #fff;
+    border-radius: 16px;
+    padding: 36px 32px;
+    width: 100%;
+    max-width: 700px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+}
+
+.page h1 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin-bottom: 24px;
+}
+
+/* Панель кнопок вверху страницы */
+.page-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
+}
+
+input, select {
+    width: 100%;
+    height: 42px;
+    margin: 6px 0 16px;
+    font-size: 15px;
+    padding: 0 12px;
+    border: 1.5px solid #e0e0e0;
+    border-radius: 8px;
+    background: #f8f9fa;
+    transition: border-color 0.2s, background 0.2s;
+    color: #1a1a2e;
+}
+
+input:focus, select:focus {
+    outline: none;
+    border-color: #0f3460;
+    background: #fff;
+}
+
+label {
+    display: block;
+    font-size: 13px;
+    color: #666;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 2px;
+}
+
+button {
+    height: 42px;
+    padding: 0 24px;
+    background: #0f3460;
+    color: white;
+    border: none;
+    font-size: 15px;
+    font-weight: 600;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(15, 52, 96, 0.3);
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
+    letter-spacing: 0.3px;
+}
+
+button:hover {
+    background: #16213e;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(15, 52, 96, 0.4);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+.btn-red {
+    background: #c0392b;
+    box-shadow: 0 4px 12px rgba(192, 57, 43, 0.3);
+}
+
+.btn-red:hover {
+    background: #a93226;
+    box-shadow: 0 6px 18px rgba(192, 57, 43, 0.4);
+}
+
+.btn-gray {
+    background: #7f8c8d;
+    box-shadow: 0 4px 12px rgba(127, 140, 141, 0.3);
+}
+
+.btn-gray:hover {
+    background: #6c7a7b;
+}
+
+/* Карточка заказа */
+.order {
+    border: 1.5px solid #e8ecf0;
+    padding: 18px 20px;
+    margin: 12px 0;
+    border-radius: 10px;
+    background: #f8f9fa;
+    transition: box-shadow 0.2s;
+}
+
+.order:hover {
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+}
+
+.order p {
+    font-size: 14px;
+    color: #444;
+    padding: 3px 0;
+}
+
+.order p b {
+    color: #0f3460;
+}
+
+/* Таблица */
+.table-wrap {
+    width: 100%;
+    overflow-x: auto;
+    margin: 8px 0;
+    border-radius: 8px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 480px;
+}
+
+td, th {
+    padding: 11px 14px;
+    border: 1px solid #e0e0e0;
+    font-size: 14px;
+    text-align: left;
+}
+
+th {
+    background: #0f3460;
+    color: #fff;
+    font-weight: 600;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+
+tr:nth-child(even) td {
+    background: #f5f7fa;
+}
+
+td select {
+    margin: 0;
+    height: 34px;
+    font-size: 13px;
+    width: auto;
+    min-width: 110px;
+}
+
+/* Ссылки внизу формы */
+.links {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    margin-top: 4px;
+}
+
+.links a {
+    color: #0f3460;
+    font-size: 14px;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.links a:hover {
+    color: #e94560;
+    text-decoration: underline;
+}
+
+/* Адаптив */
+@media (max-width: 600px) {
+    body {
+        padding: 16px 10px;
+    }
+
+    .page {
+        padding: 24px 16px;
+        border-radius: 12px;
+    }
+
+    .page h1 {
+        font-size: 20px;
+        margin-bottom: 18px;
+    }
+
+    .page-actions {
+        flex-direction: column;
+    }
+
+    .page-actions button {
+        width: 100%;
+    }
+
+    button {
+        width: 100%;
+    }
+}

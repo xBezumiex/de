@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="login-reg.css">
+    <title>Вход</title>
+</head>
+<body>
+    <div class="card">
+        <h1>Вход</h1>
+
+        <p>Логин</p>
+        <input type="text" id="login">
+
+        <p>Пароль</p>
+        <input type="password" id="pass">
+
+        <p id="error" style="color:#e94560; display:none;"></p>
+
+        <button onclick="check()">Войти</button>
+
+        <div class="links">
+            <a href="register.html">Регистрация</a>
+            <a href="index.html">Перейти на главную</a>
+        </div>
+    </div>
+
+    <script>
+        function check() {
+            const login = document.getElementById('login').value.trim();
+            const pass = document.getElementById('pass').value.trim();
+            const error = document.getElementById('error');
+
+            if (!login || !pass) {
+                error.textContent = 'Заполните все поля';
+                error.style.display = 'block';
+                return;
+            }
+
+            // Проверка администратора
+            if (login === 'admin' && pass === 'admin') {
+                localStorage.setItem('session', JSON.stringify({ loggedIn: true, role: 'admin', login: 'admin' }));
+                location.href = 'admin.html';
+                return;
+            }
+
+            // Проверка обычных пользователей
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            const user = users.find(u => u.login === login && u.pass === pass);
+            if (user) {
+                localStorage.setItem('session', JSON.stringify({ loggedIn: true, role: 'user', login: user.login }));
+                location.href = 'orders.html';
+            } else {
+                error.textContent = 'Неверный логин или пароль';
+                error.style.display = 'block';
+            }
+        }
+    </script>
+</body>
+</html>

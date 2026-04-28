@@ -1,0 +1,47 @@
+/* Узкая карточка для входа/регистрации */
+.card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 40px 36px;
+    width: 100%;
+    max-width: 380px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+}
+
+.card h1 {
+    font-size: 26px;
+    color: #1a1a2e;
+    margin-bottom: 28px;
+    text-align: center;
+    font-weight: 700;
+}
+
+.card p {
+    font-size: 13px;
+    color: #666;
+    margin-bottom: 4px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.card input {
+    margin-bottom: 16px;
+}
+
+.card button {
+    width: 100%;
+    margin: 8px 0 20px;
+}
+
+@media (max-width: 480px) {
+    .card {
+        padding: 28px 20px;
+        border-radius: 12px;
+    }
+
+    .card h1 {
+        font-size: 22px;
+        margin-bottom: 20px;
+    }
+}

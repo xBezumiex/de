@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Заказы</title>
+</head>
+<body>
+    <div class="page">
+        <h1>Мои заказы</h1>
+
+        <div class="page-actions">
+            <button onclick="location.href='create.html'">Создать заказ</button>
+            <button class="btn-red" onclick="logout()">Выйти</button>
+        </div>
+
+        <div id="ordersContainer">
+            <!-- Заказы будут загружены сюда -->
+        </div>
+    </div>
+
+    <script>
+        const session = JSON.parse(localStorage.getItem('session'));
+        if (!session || !session.loggedIn) location.href = 'login.html';
+
+        function logout() {
+            localStorage.removeItem('session');
+            location.href = 'login.html';
+        }
+
+        function loadOrders() {
+            const container = document.getElementById('ordersContainer');
+            let orders = JSON.parse(localStorage.getItem('orders')) || [];
+            if (orders.length === 0) {
+                orders = [
+                    { id: 1, type: 'Тип 1', date: '15.12.2024', phone: '', payment: 'Наличные', status: 'Новый' },
+                    { id: 2, type: 'Тип 2', date: '20.12.2024', phone: '', payment: 'Перевод', status: 'В работе' }
+                ];
+                localStorage.setItem('orders', JSON.stringify(orders));
+            }
+            orders.forEach(order => {
+                const orderDiv = document.createElement('div');
+                orderDiv.className = 'order';
+                orderDiv.innerHTML = `
+                    <p><b>Заказ #${order.id}</b></p>
+                    <p>Тип: ${order.type}</p>
+                    <p>Дата: ${order.date}</p>
+                    ${order.phone ? `<p>Телефон: ${order.phone}</p>` : ''}
+                    <p>Оплата: ${order.payment}</p>
+                    <p>Статус: ${order.status}</p>
+                `;
+                container.appendChild(orderDiv);
+            });
+        }
+        window.onload = loadOrders;
+    </script>
+</body>
+</html>

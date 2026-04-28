@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Создать заказ</title>
+</head>
+<body>
+    <div class="page" style="max-width: 480px;">
+        <h1>Новый заказ</h1>
+
+        <label>Тип</label>
+        <select id="type">
+            <option>Тип 1</option>
+            <option>Тип 2</option>
+            <option>Тип 3</option>
+        </select>
+
+        <label>Дата</label>
+        <input id="date" type="date">
+
+        <label>Телефон</label>
+        <input id="phone" type="text" placeholder="+7 (999) 123-45-67">
+
+        <label>Оплата</label>
+        <select id="payment">
+            <option>Наличные</option>
+            <option>Перевод</option>
+        </select>
+
+        <p id="error" style="color:#e94560; display:none;"></p>
+
+        <div class="page-actions" style="margin-top: 8px;">
+            <button onclick="createOrder()">Отправить</button>
+            <button class="btn-gray" onclick="location.href='orders.html'">Назад</button>
+        </div>
+    </div>
+
+    <script>
+        const session = JSON.parse(localStorage.getItem('session'));
+        if (!session || !session.loggedIn) location.href = 'login.html';
+
+        function createOrder() {
+            const type = document.getElementById('type').value;
+            const date = document.getElementById('date').value;
+            const phone = document.getElementById('phone').value.trim();
+            const payment = document.getElementById('payment').value;
+            const error = document.getElementById('error');
+
+            if (!date) {
+                error.textContent = 'Укажите дату';
+                error.style.display = 'block';
+                return;
+            }
+            if (!phone) {
+                error.textContent = 'Укажите телефон';
+                error.style.display = 'block';
+                return;
+            }
+            if (!/^(\+7|8)[\s\-]?\(?\d{3}\)?[\s\-]?\d{3}[\s\-]?\d{2}[\s\-]?\d{2}$/.test(phone)) {
+                error.textContent = 'Неверный формат телефона. Пример: +7 (999) 123-45-67';
+                error.style.display = 'block';
+                return;
+            }
+
+            const order = { id: Date.now(), type, date, phone, payment, status: 'Новый' };
+            let orders = JSON.parse(localStorage.getItem('orders')) || [];
+            orders.push(order);
+            localStorage.setItem('orders', JSON.stringify(orders));
+            location.href = 'orders.html';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="login-reg.css">
+    <title>Регистрация</title>
+</head>
+<body>
+    <div class="card">
+        <h1>Регистрация</h1>
+
+        <p>Логин</p>
+        <input type="text" id="login">
+
+        <p>Пароль</p>
+        <input type="password" id="pass">
+
+        <p>ФИО</p>
+        <input type="text" id="name">
+
+        <p>Телефон</p>
+        <input type="text" id="phone" placeholder="+7 (999) 123-45-67">
+
+        <p>Email</p>
+        <input type="text" id="email">
+
+        <p id="error" style="color:#e94560; display:none;"></p>
+
+        <button onclick="register()">Создать аккаунт</button>
+
+        <div class="links">
+            <a href="login.html">Уже есть аккаунт</a>
+            <a href="index.html">Перейти на главную</a>
+        </div>
+    </div>
+
+    <script>
+        function register() {
+            const login = document.getElementById('login').value.trim();
+            const pass = document.getElementById('pass').value.trim();
+            const name = document.getElementById('name').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const error = document.getElementById('error');
+
+            if (!login || !pass || !name || !phone || !email) {
+                error.textContent = 'Заполните все поля';
+                error.style.display = 'block';
+                return;
+            }
+            if (pass.length < 6) {
+                error.textContent = 'Пароль должен быть не менее 6 символов';
+                error.style.display = 'block';
+                return;
+            }
+            if (!/^(\+7|8)[\s\-]?\(?\d{3}\)?[\s\-]?\d{3}[\s\-]?\d{2}[\s\-]?\d{2}$/.test(phone)) {
+                error.textContent = 'Неверный формат телефона. Пример: +7 (999) 123-45-67';
+                error.style.display = 'block';
+                return;
+            }
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                error.textContent = 'Неверный формат email';
+                error.style.display = 'block';
+                return;
+            }
+
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            if (users.find(u => u.login === login)) {
+                error.textContent = 'Такой логин уже занят';
+                error.style.display = 'block';
+                return;
+            }
+
+            users.push({ login, pass, name, phone, email });
+            localStorage.setItem('users', JSON.stringify(users));
+            location.href = 'login.html';
+        }
+    </script>
+</body>
+</html>
