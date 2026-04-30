@@ -10,26 +10,27 @@
 <body>
     <div class="card">
         <h1>Регистрация</h1>
+        <form onsubmit="register(event)">
+            <p>Логин</p>
+            <input type="text" id="login" required>
 
-        <p>Логин</p>
-        <input type="text" id="login">
+            <p>Пароль</p>
+            <input type="password" id="pass" required minlength="6">
 
-        <p>Пароль</p>
-        <input type="password" id="pass">
+            <p>ФИО</p>
+            <input type="text" id="name" required>
 
-        <p>ФИО</p>
-        <input type="text" id="name">
+            <p>Телефон</p>
+            <input type="tel" id="phone" placeholder="+7 (999) 123-45-67" required
+                pattern="(\+7|8)[\s\-]?\(?\d{3}\)?[\s\-]?\d{3}[\s\-]?\d{2}[\s\-]?\d{2}">
 
-        <p>Телефон</p>
-        <input type="text" id="phone" placeholder="+7 (999) 123-45-67">
+            <p>Email</p>
+            <input type="email" id="email" required>
 
-        <p>Email</p>
-        <input type="text" id="email">
+            <p id="error" style="color:#e94560; display:none;"></p>
 
-        <p id="error" style="color:#e94560; display:none;"></p>
-
-        <button onclick="register()">Создать аккаунт</button>
-
+            <button type="submit">Создать аккаунт</button>
+        </form>
         <div class="links">
             <a href="login.html">Уже есть аккаунт</a>
             <a href="index.html">Перейти на главную</a>
@@ -42,12 +43,9 @@
         const load = k => JSON.parse(localStorage.getItem(k)) || [];
         const save = (k, v) => localStorage.setItem(k, JSON.stringify(v));
 
-        function register() {
+        function register(e) {
+            e.preventDefault();
             const login = g('login'), pass = g('pass'), name = g('name'), phone = g('phone'), email = g('email');
-            if (!login || !pass || !name || !phone || !email) return err('Заполните все поля');
-            if (pass.length < 6) return err('Пароль не менее 6 символов');
-            if (!/^(\+7|8)[\s\-]?\(?\d{3}\)?[\s\-]?\d{3}[\s\-]?\d{2}[\s\-]?\d{2}$/.test(phone)) return err('Неверный формат телефона');
-            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return err('Неверный формат email');
             const users = load('users');
             if (users.find(u => u.login === login)) return err('Логин уже занят');
             users.push({ login, pass, name, phone, email });

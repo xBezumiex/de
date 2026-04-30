@@ -10,17 +10,17 @@
 <body>
     <div class="card">
         <h1>Вход</h1>
+        <form onsubmit="check(event)">
+            <p>Логин</p>
+            <input type="text" id="login" required>
 
-        <p>Логин</p>
-        <input type="text" id="login">
+            <p>Пароль</p>
+            <input type="password" id="pass" required>
 
-        <p>Пароль</p>
-        <input type="password" id="pass">
+            <p id="error" style="color:#e94560; display:none;"></p>
 
-        <p id="error" style="color:#e94560; display:none;"></p>
-
-        <button onclick="check()">Войти</button>
-
+            <button type="submit">Войти</button>
+        </form>
         <div class="links">
             <a href="register.html">Регистрация</a>
             <a href="index.html">Перейти на главную</a>
@@ -33,9 +33,9 @@
         const load = k => JSON.parse(localStorage.getItem(k)) || [];
         const save = (k, v) => localStorage.setItem(k, JSON.stringify(v));
 
-        function check() {
+        function check(e) {
+            e.preventDefault();
             const login = g('login'), pass = g('pass');
-            if (!login || !pass) return err('Заполните все поля');
             if (login === 'admin' && pass === 'admin') {
                 save('session', { loggedIn: true, role: 'admin', login: 'admin' });
                 return location.href = 'admin.html';

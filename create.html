@@ -9,32 +9,32 @@
 <body>
     <div class="page" style="max-width: 480px;">
         <h1>Новый заказ</h1>
+        <form onsubmit="createOrder(event)">
+            <label>Тип</label>
+            <select id="type">
+                <option>Тип 1</option>
+                <option>Тип 2</option>
+                <option>Тип 3</option>
+            </select>
 
-        <label>Тип</label>
-        <select id="type">
-            <option>Тип 1</option>
-            <option>Тип 2</option>
-            <option>Тип 3</option>
-        </select>
+            <label>Дата</label>
+            <input id="date" type="date" required>
 
-        <label>Дата</label>
-        <input id="date" type="date">
+            <label>Телефон</label>
+            <input id="phone" type="tel" placeholder="+7 (999) 123-45-67" required
+                pattern="(\+7|8)[\s\-]?\(?\d{3}\)?[\s\-]?\d{3}[\s\-]?\d{2}[\s\-]?\d{2}">
 
-        <label>Телефон</label>
-        <input id="phone" type="text" placeholder="+7 (999) 123-45-67">
+            <label>Оплата</label>
+            <select id="payment">
+                <option>Наличные</option>
+                <option>Перевод</option>
+            </select>
 
-        <label>Оплата</label>
-        <select id="payment">
-            <option>Наличные</option>
-            <option>Перевод</option>
-        </select>
-
-        <p id="error" style="color:#e94560; display:none;"></p>
-
-        <div class="page-actions" style="margin-top: 8px;">
-            <button onclick="createOrder()">Отправить</button>
-            <button class="btn-gray" onclick="location.href='orders.html'">Назад</button>
-        </div>
+            <div class="page-actions" style="margin-top: 8px;">
+                <button type="submit">Отправить</button>
+                <button type="button" class="btn-gray" onclick="location.href='orders.html'">Назад</button>
+            </div>
+        </form>
     </div>
 
     <script>
@@ -42,15 +42,12 @@
         if (!session || !session.loggedIn) location.href = 'login.html';
 
         const g = id => document.getElementById(id).value.trim();
-        const err = msg => { const e = document.getElementById('error'); e.textContent = msg; e.style.display = 'block'; };
         const load = k => JSON.parse(localStorage.getItem(k)) || [];
         const save = (k, v) => localStorage.setItem(k, JSON.stringify(v));
 
-        function createOrder() {
+        function createOrder(e) {
+            e.preventDefault();
             const type = g('type'), date = g('date'), phone = g('phone'), payment = g('payment');
-            if (!date) return err('Укажите дату');
-            if (!phone) return err('Укажите телефон');
-            if (!/^(\+7|8)[\s\-]?\(?\d{3}\)?[\s\-]?\d{3}[\s\-]?\d{2}[\s\-]?\d{2}$/.test(phone)) return err('Неверный формат телефона');
             const orders = load('orders');
             orders.push({ id: Date.now(), user: session.login, type, date, phone, payment, status: 'Новый' });
             save('orders', orders);
