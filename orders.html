@@ -24,34 +24,20 @@
         const session = JSON.parse(localStorage.getItem('session'));
         if (!session || !session.loggedIn) location.href = 'login.html';
 
-        function logout() {
-            localStorage.removeItem('session');
-            location.href = 'login.html';
-        }
+        function logout() { localStorage.removeItem('session'); location.href = 'login.html'; }
 
         function loadOrders() {
+            const orders = JSON.parse(localStorage.getItem('orders')) || [];
             const container = document.getElementById('ordersContainer');
-            let orders = JSON.parse(localStorage.getItem('orders')) || [];
-            if (orders.length === 0) {
-                orders = [
-                    { id: 1, type: 'Тип 1', date: '15.12.2024', phone: '', payment: 'Наличные', status: 'Новый' },
-                    { id: 2, type: 'Тип 2', date: '20.12.2024', phone: '', payment: 'Перевод', status: 'В работе' }
-                ];
-                localStorage.setItem('orders', JSON.stringify(orders));
-            }
-            orders.forEach(order => {
-                const orderDiv = document.createElement('div');
-                orderDiv.className = 'order';
-                orderDiv.innerHTML = `
-                    <p><b>Заказ #${order.id}</b></p>
-                    <p>Тип: ${order.type}</p>
-                    <p>Дата: ${order.date}</p>
-                    ${order.phone ? `<p>Телефон: ${order.phone}</p>` : ''}
-                    <p>Оплата: ${order.payment}</p>
-                    <p>Статус: ${order.status}</p>
-                `;
-                container.appendChild(orderDiv);
-            });
+            if (!orders.length) { container.innerHTML = '<p>Заказов нет</p>'; return; }
+            container.innerHTML = orders.map(o => `
+                <div class="order">
+                    <p><b>Заказ #${o.id}</b></p>
+                    <p>Тип: ${o.type} | Дата: ${o.date}</p>
+                    ${o.phone ? `<p>Телефон: ${o.phone}</p>` : ''}
+                    <p>Оплата: ${o.payment} | Статус: ${o.status}</p>
+                </div>
+            `).join('');
         }
         window.onload = loadOrders;
     </script>

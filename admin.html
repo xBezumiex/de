@@ -15,39 +15,13 @@
         </div>
 
         <div class="table-wrap">
-            <table>
+            <table id="ordersTable">
                 <tr>
                     <th>Заказ</th>
                     <th>Пользователь</th>
                     <th>Тип</th>
                     <th>Дата</th>
                     <th>Статус</th>
-                </tr>
-                <tr>
-                    <td>#1</td>
-                    <td>user1</td>
-                    <td>Тип 1</td>
-                    <td>15.12.2024</td>
-                    <td>
-                        <select>
-                            <option>Новый</option>
-                            <option>В работе</option>
-                            <option>Готово</option>
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td>#2</td>
-                    <td>user2</td>
-                    <td>Тип 2</td>
-                    <td>20.12.2024</td>
-                    <td>
-                        <select>
-                            <option>Новый</option>
-                            <option>В работе</option>
-                            <option>Готово</option>
-                        </select>
-                    </td>
                 </tr>
             </table>
         </div>
@@ -57,10 +31,30 @@
         const session = JSON.parse(localStorage.getItem('session'));
         if (!session || !session.loggedIn || session.role !== 'admin') location.href = 'login.html';
 
-        function logout() {
-            localStorage.removeItem('session');
-            location.href = 'login.html';
+        function logout() { localStorage.removeItem('session'); location.href = 'login.html'; }
+
+        function loadOrders() {
+            const orders = JSON.parse(localStorage.getItem('orders')) || [];
+            const table = document.getElementById('ordersTable');
+            if (!orders.length) { table.innerHTML += '<tr><td colspan="5">Заказов нет</td></tr>'; return; }
+            table.innerHTML += orders.map((o, i) => `
+                <tr>
+                    <td>#${i+1}</td><td>${o.user || '—'}</td><td>${o.type}</td><td>${o.date}</td>
+                    <td><select onchange="updateStatus(${i},this.value)">
+                        ${['Новый','В работе','Готово'].map(s => `<option${s===o.status?' selected':''}>${s}</option>`).join('')}
+                    </select></td>
+                </tr>
+            `).join('');
         }
+
+        function updateStatus(i, status) {
+            const orders = JSON.parse(localStorage.getItem('orders')) || [];
+            orders[i].status = status;
+            localStorage.setItem('orders', JSON.stringify(orders));
+        }
+
+        window.onload = loadOrders;
     </script>
 </body>
 </html>
+

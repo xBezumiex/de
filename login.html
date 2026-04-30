@@ -28,34 +28,21 @@
     </div>
 
     <script>
+        const g = id => document.getElementById(id).value.trim();
+        const err = msg => { const e = document.getElementById('error'); e.textContent = msg; e.style.display = 'block'; };
+        const load = k => JSON.parse(localStorage.getItem(k)) || [];
+        const save = (k, v) => localStorage.setItem(k, JSON.stringify(v));
+
         function check() {
-            const login = document.getElementById('login').value.trim();
-            const pass = document.getElementById('pass').value.trim();
-            const error = document.getElementById('error');
-
-            if (!login || !pass) {
-                error.textContent = 'Заполните все поля';
-                error.style.display = 'block';
-                return;
-            }
-
-            // Проверка администратора
+            const login = g('login'), pass = g('pass');
+            if (!login || !pass) return err('Заполните все поля');
             if (login === 'admin' && pass === 'admin') {
-                localStorage.setItem('session', JSON.stringify({ loggedIn: true, role: 'admin', login: 'admin' }));
-                location.href = 'admin.html';
-                return;
+                save('session', { loggedIn: true, role: 'admin', login: 'admin' });
+                return location.href = 'admin.html';
             }
-
-            // Проверка обычных пользователей
-            const users = JSON.parse(localStorage.getItem('users')) || [];
-            const user = users.find(u => u.login === login && u.pass === pass);
-            if (user) {
-                localStorage.setItem('session', JSON.stringify({ loggedIn: true, role: 'user', login: user.login }));
-                location.href = 'orders.html';
-            } else {
-                error.textContent = 'Неверный логин или пароль';
-                error.style.display = 'block';
-            }
+            const user = load('users').find(u => u.login === login && u.pass === pass);
+            if (user) { save('session', { loggedIn: true, role: 'user', login: user.login }); location.href = 'orders.html'; }
+            else err('Неверный логин или пароль');
         }
     </script>
 </body>

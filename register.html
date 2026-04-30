@@ -37,44 +37,21 @@
     </div>
 
     <script>
+        const g = id => document.getElementById(id).value.trim();
+        const err = msg => { const e = document.getElementById('error'); e.textContent = msg; e.style.display = 'block'; };
+        const load = k => JSON.parse(localStorage.getItem(k)) || [];
+        const save = (k, v) => localStorage.setItem(k, JSON.stringify(v));
+
         function register() {
-            const login = document.getElementById('login').value.trim();
-            const pass = document.getElementById('pass').value.trim();
-            const name = document.getElementById('name').value.trim();
-            const phone = document.getElementById('phone').value.trim();
-            const email = document.getElementById('email').value.trim();
-            const error = document.getElementById('error');
-
-            if (!login || !pass || !name || !phone || !email) {
-                error.textContent = 'Заполните все поля';
-                error.style.display = 'block';
-                return;
-            }
-            if (pass.length < 6) {
-                error.textContent = 'Пароль должен быть не менее 6 символов';
-                error.style.display = 'block';
-                return;
-            }
-            if (!/^(\+7|8)[\s\-]?\(?\d{3}\)?[\s\-]?\d{3}[\s\-]?\d{2}[\s\-]?\d{2}$/.test(phone)) {
-                error.textContent = 'Неверный формат телефона. Пример: +7 (999) 123-45-67';
-                error.style.display = 'block';
-                return;
-            }
-            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-                error.textContent = 'Неверный формат email';
-                error.style.display = 'block';
-                return;
-            }
-
-            const users = JSON.parse(localStorage.getItem('users')) || [];
-            if (users.find(u => u.login === login)) {
-                error.textContent = 'Такой логин уже занят';
-                error.style.display = 'block';
-                return;
-            }
-
+            const login = g('login'), pass = g('pass'), name = g('name'), phone = g('phone'), email = g('email');
+            if (!login || !pass || !name || !phone || !email) return err('Заполните все поля');
+            if (pass.length < 6) return err('Пароль не менее 6 символов');
+            if (!/^(\+7|8)[\s\-]?\(?\d{3}\)?[\s\-]?\d{3}[\s\-]?\d{2}[\s\-]?\d{2}$/.test(phone)) return err('Неверный формат телефона');
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return err('Неверный формат email');
+            const users = load('users');
+            if (users.find(u => u.login === login)) return err('Логин уже занят');
             users.push({ login, pass, name, phone, email });
-            localStorage.setItem('users', JSON.stringify(users));
+            save('users', users);
             location.href = 'login.html';
         }
     </script>
