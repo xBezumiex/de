@@ -37,14 +37,9 @@
         </form>
     </div>
 
+    <script src="app.js"></script>
     <script>
-        const session = JSON.parse(localStorage.getItem('session'));
-        if (!session || !session.loggedIn) location.href = 'login.html';
-
-        const g = id => document.getElementById(id).value.trim();
-        const load = k => JSON.parse(localStorage.getItem(k)) || [];
-        const save = (k, v) => localStorage.setItem(k, JSON.stringify(v));
-
+        const session = checkAuth();
         function createOrder(e) {
             e.preventDefault();
             const type = g('type'), date = g('date'), phone = g('phone'), payment = g('payment');

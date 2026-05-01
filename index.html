@@ -27,14 +27,12 @@
     <script>
         let slides = ['gimp.jpeg', 'gimp1.webp'];
         let current = 0;
-
         function changeSlide(n) {
             current = current + n;
             if (current >= slides.length) current = 0;
             if (current < 0) current = slides.length - 1;
             document.getElementById('slide').src = slides[current];
         }
-
         setInterval(() => changeSlide(1), 3000);
     </script>
 </body>

@@ -20,14 +20,12 @@
         </div>
     </div>
 
+    <script src="app.js"></script>
     <script>
-        const session = JSON.parse(localStorage.getItem('session'));
-        if (!session || !session.loggedIn) location.href = 'login.html';
-
+        const session = checkAuth();
         function logout() { localStorage.removeItem('session'); location.href = 'login.html'; }
-
         function loadOrders() {
-            const orders = JSON.parse(localStorage.getItem('orders')) || [];
+            const orders = load('orders');
             const container = document.getElementById('ordersContainer');
             if (!orders.length) { container.innerHTML = '<p>Заказов нет</p>'; return; }
             container.innerHTML = orders.map(o => `

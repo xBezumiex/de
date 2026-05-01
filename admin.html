@@ -27,15 +27,10 @@
         </div>
     </div>
 
+    <script src="app.js"></script>
     <script>
-        const session = JSON.parse(localStorage.getItem('session'));
-        if (!session || !session.loggedIn || session.role !== 'admin') location.href = 'login.html';
-
-        const load = k => JSON.parse(localStorage.getItem(k)) || [];
-        const save = (k, v) => localStorage.setItem(k, JSON.stringify(v));
-
+        const session = checkAuth('admin');
         function logout() { localStorage.removeItem('session'); location.href = 'login.html'; }
-
         function loadOrders() {
             const orders = load('orders');
             const table = document.getElementById('ordersTable');
@@ -49,13 +44,11 @@
                 </tr>
             `).join('');
         }
-
         function updateStatus(i, status) {
             const orders = load('orders');
             orders[i].status = status;
             save('orders', orders);
         }
-
         window.onload = loadOrders;
     </script>
 </body>

@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="login-reg.css">
     <title>Вход</title>
 </head>
 <body>
@@ -27,12 +26,8 @@
         </div>
     </div>
 
+    <script src="app.js"></script>
     <script>
-        const g = id => document.getElementById(id).value.trim();
-        const err = msg => { const e = document.getElementById('error'); e.textContent = msg; e.style.display = 'block'; };
-        const load = k => JSON.parse(localStorage.getItem(k)) || [];
-        const save = (k, v) => localStorage.setItem(k, JSON.stringify(v));
-
         function check(e) {
             e.preventDefault();
             const login = g('login'), pass = g('pass');
